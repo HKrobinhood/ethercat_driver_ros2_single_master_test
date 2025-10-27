@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="left_arm">
+
+  <xacro:macro name="motor_drive">
+    <link name="dummy"></link>
+    <joint name="dummy_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="dummy" />
+      <child link="base_link" />
+    </joint>
+    <!-- 根链接,这一份是正常的-->
+    <link name="base_link">
+      <inertial>
+        <origin xyz="-0.0166989393000473 3.27209659861525E-08 0.420936048525623" rpy="0 0 0" />
+        <mass value="0.286998661521605" />
+        <inertia ixx="0.000312156246959873" ixy="4.98504025694623E-10" ixz="1.12282496576042E-08" iyy="0.000561519152458718" iyz="1.33263883101697E-10" izz="0.000312117377642611" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://igh_motor/urdf/meshes/base_link.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="1 1 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://igh_motor/urdf/meshes/base_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- 子链接 -->
+    <link name="L1_Link">
+      <inertial>
+        <origin xyz="-0.016754 0.034299 5.5857E-06" rpy="0 0 0" />
+        <mass value="0.15069" />
+        <inertia ixx="0.00024377" ixy="3.1167E-05" ixz="3.5686E-10" iyy="0.00016909" iyz="2.2607E-08" izz="0.00019417" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://igh_motor/urdf/meshes/L1_Link.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="1 1 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://igh_motor/urdf/meshes/L1_Link.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="joint_1" type="revolute">
+      <origin xyz="-0.0167 0.1915 0.42094" rpy="0 0 0" />
+      <parent link="base_link" />
+      <child link="L1_Link" />
+      <axis xyz="0 -1 0" />
+      <limit lower="-1.57" upper="1.57" effort="100" velocity="3" />
+    </joint>
+    
+    <ros2_control name="motor_drive" type="system">
+      <hardware>
+        <plugin>ethercat_driver/EthercatDriver</plugin>
+        <param name="master_id">0</param>
+        <param name="control_frequency">1000</param>
+      </hardware>
+
+      <joint name="joint_1">
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+        <!-- <state_interface name="effort"/> -->
+        <command_interface name="position"/>
+        <command_interface name="effort"/>
+        <!-- <command_interface name="reset_fault"/> -->
+        <ec_module name="eyou">
+          <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+          <param name="alias">0</param>
+          <param name="position">0</param>
+          <param name="mode_of_operation">10</param>
+          <param name="slave_config">$(find ethercat_motor_drive)/config/tc_ecat_config.yaml</param>
+        </ec_module>
+      </joint>
+    </ros2_control>
+
+  </xacro:macro>
+
+</robot>

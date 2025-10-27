@@ -1,0 +1,39 @@
+# Configuration file for Sine Motion Control EtherCAT Drive
+vendor_id: 0x000003DF          # 已匹配XML中的Vendor ID
+product_id: 0x00000001         # 更新：根据XML的ProductCode修改为0x00000001
+assign_activate: 0x0300        # 与XML的DC Synch register一致
+auto_fault_reset: true         # 保留原配置
+sdo:
+  - { index: 0x6060, sub_index: 0, type: int8, value: 8 }   # 修改：类型从uint8改为int8（匹配XML的SINT）
+  # - { index: 0x6040, sub_index: 0, type: uint16, value: 6 } # 控制字（启动）
+  # - { index: 0x6040, sub_index: 0, type: uint16, value: 7 } # 控制字（使能）
+  # - { index: 0x6040, sub_index: 0, type: uint16, value: 15 } # 控制字（运行）
+
+rpdo: # RxPDO配置（完整提取XML的RxPdo条目）
+  - index: 0x1600
+    channels:
+      - { index: 0x6040, sub_index: 0, type: uint16 }          # 控制字
+      - { index: 0x607a, sub_index: 0, type: int32, command_interface: position, default: .nan } # 目标位置
+      - { index: 0x6081, sub_index: 0, type: uint32 }         # 配置文件速度    
+      - { index: 0x6060, sub_index: 0, type: int8 }           # 操作模式 
+      - { index: 0x6071, sub_index: 0, type: int16 }          # 目标扭矩 
+      - { index: 0x60ff, sub_index: 0, type: int32 }          # 目标速度
+      - { index: 0x60b2, sub_index: 0, type: int32 }         # 新增：扭矩偏移（XML中0x60B2）
+      
+tpdo: # TxPDO配置（完整提取XML的TxPdo条目）
+  - index: 0x1a00
+    channels:
+      - { index: 0x6041, sub_index: 0, type: uint16 }          # 状态字
+      - { index: 0x6064, sub_index: 0, type: int32, state_interface: position } # 实际位置
+      - { index: 0x606c, sub_index: 0, type: int32 }          # 实际速度
+      - { index: 0x6061, sub_index: 0, type: int8 }           # 操作模式显示
+      - { index: 0x603f, sub_index: 0, type: uint16 }         # 新增：错误码（XML中0x603F）
+      - { index: 0x6077, sub_index: 0, type: int16, state_interface: effort } # 实际扭矩
+      - { index: 0x60fd, sub_index: 0, type: uint32 }         # 数字输入状态
+
+
+sm:  # 同步管理器配置（与XML一致）
+  - { index: 0, type: output, pdo: ~, watchdog: disable }     # MBoxOut
+  - { index: 1, type: input, pdo: ~, watchdog: disable }      # MBoxIn
+  - { index: 2, type: output, pdo: rpdo, watchdog: enable }   # 输出PDO（SM2）
+  - { index: 3, type: input, pdo: tpdo, watchdog: enable }    # 输入PDO（SM3）

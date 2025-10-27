@@ -1,0 +1,940 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="G1WA2_left_arm_only">
+
+  <!-- Base Link -->
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="5.0"/>
+      <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.8 0.6 0.1"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.2 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.8 0.6 0.1"/></geometry>
+    </collision>
+  </link>
+
+  <!-- Left Arm -->
+  <link name="L1_Link">
+    <inertial>
+      <origin xyz="-0.0107790771757509 0.00733746254377765 -4.5050037589256E-09" rpy="0 0 0"/>
+      <mass value="0.204494581283973"/>
+      <inertia ixx="0.000273013687047351" ixy="5.86708632590591E-05" ixz="1.04270685744755E-09"
+               iyy="0.000316252077489741" iyz="1.94843327973314E-11" izz="0.000298061700380069"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L1_Link.STL"/></geometry>
+      <material name=""><color rgba="1 1 1 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L1_Link.STL"/></geometry>
+    </collision>
+  </link>
+
+  <!-- 注意：父链接改为 base_link -->
+  <joint name="L1" type="revolute">
+    <origin xyz="-0.0179999999999963 0.186500000003825 0.287999999998753" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="L1_Link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-3.14" upper="3.14" effort="0" velocity="0"/>
+  </joint>
+
+  <link name="L2_Link">
+    <inertial>
+      <origin xyz="-0.0162628915954824 0.000277377032878223 -0.0522831148141431" rpy="0 0 0"/>
+      <mass value="0.397550612651782"/>
+      <inertia ixx="0.00187035207517289" ixy="-1.29729320163933E-06" ixz="1.47002338440618E-05"
+               iyy="0.00168015902316624" iyz="-7.28045048767495E-06" izz="0.000399451586280756"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L2_Link.STL"/></geometry>
+      <material name=""><color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L2_Link.STL"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="L2" type="revolute">
+    <origin xyz="0 0.079000000000003 0" rpy="0 0 0"/>
+    <parent link="L1_Link"/>
+    <child link="L2_Link"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.35" upper="3.49" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="L3_Link">
+    <inertial>
+      <origin xyz="-0.00280573553144792 -0.0104383398303526 -0.0817399954209961" rpy="0 0 0"/>
+      <mass value="0.160040183480137"/>
+      <inertia ixx="0.0005473252501567" ixy="5.99525562535351E-06" ixz="6.03774339301127E-06"
+               iyy="0.000415602198095861" iyz="-5.0270206847639E-05" izz="0.000195547771208541"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L3_Link.STL"/></geometry>
+      <material name=""><color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L3_Link.STL"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="L3" type="revolute">
+    <origin xyz="-0.000500001203642464 0 -0.18019999965674" rpy="0 0 0"/>
+    <parent link="L2_Link"/>
+    <child link="L3_Link"/>
+    <axis xyz="0 0 -1"/>
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="L4_Link">
+    <inertial>
+      <origin xyz="9.23094229475507E-05 0.0236442856377482 -0.0595858602034311" rpy="0 0 0"/>
+      <mass value="0.182847479454444"/>
+      <inertia ixx="0.000419842382791315" ixy="4.05617025825722E-07" ixz="4.9507491644789E-07"
+               iyy="0.000461962314459026" iyz="-6.08027582866354E-05" izz="0.00019485451570012"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L4_Link.STL"/></geometry>
+      <material name=""><color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L4_Link.STL"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="L4" type="revolute">
+    <origin xyz="-0.000200000630714514 0 -0.113749999999995" rpy="0 0 0"/>
+    <parent link="L3_Link"/>
+    <child link="L4_Link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.74" upper="1.74" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="L5_Link">
+    <inertial>
+      <origin xyz="-5.19815420707559E-07 -0.000188746977187737 -0.0630422195923447" rpy="0 0 0"/>
+      <mass value="0.884123025873087"/>
+      <inertia ixx="0.00153753124676593" ixy="1.19018385146318E-07" ixz="-1.62231305257054E-06"
+               iyy="0.00129349367099846" iyz="-5.86972224498545E-06" izz="0.000661107625270624"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L5_Link.STL"/></geometry>
+      <material name=""><color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L5_Link.STL"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="L5" type="revolute">
+    <origin xyz="-2.72788762022136E-05 -0.00280000000304437 -0.138299999999932" rpy="0 0 0"/>
+    <parent link="L4_Link"/>
+    <child link="L5_Link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="L6_Link">
+    <inertial>
+      <origin xyz="0.0100566781128742 -0.00814930960841309 -0.0119979121102269" rpy="0 0 0"/>
+      <mass value="0.118424867189335"/>
+      <inertia ixx="0.00011753056273116" ixy="-1.51200086902879E-05" ixz="3.14819877006945E-05"
+               iyy="0.00011322574319822" iyz="1.07626758713035E-05" izz="0.000150572373851746"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L6_Link.STL"/></geometry>
+      <material name=""><color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L6_Link.STL"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="L6" type="revolute">
+    <origin xyz="0 0 -0.145199999917764" rpy="0 0 0"/>
+    <parent link="L5_Link"/>
+    <child link="L6_Link"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.05" upper="1.05" effort="0" velocity="0"/>
+  </joint>
+
+  <link name="L7_Link">
+    <inertial>
+      <origin xyz="-0.0076634 -4.4371E-07 -0.0075373" rpy="0 0 0"/>
+      <mass value="0.093891"/>
+      <inertia ixx="0.00011789" ixy="8.8172E-11" ixz="-5.9555E-07"
+               iyy="0.00010092" iyz="-4.23E-10" izz="9.0275E-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L7_Link.STL"/></geometry>
+      <material name=""><color rgba="0.75294 0.75294 0.75294 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L7_Link.STL"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="L7" type="revolute">
+    <origin xyz="-2.28112266307257E-05 5.02793896420828E-05 -0.0406402719228865" rpy="0 0 0"/>
+    <parent link="L6_Link"/>
+    <child link="L7_Link"/>
+    <axis xyz="-0.999999842829457 0 0.000560661271999481"/>
+    <limit lower="-1.57" upper="1.57" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="L8_Link">
+    <inertial>
+      <origin xyz="-4.0734E-06 -4.1392E-07 -0.0072681" rpy="0 0 0"/>
+      <mass value="0.61289"/>
+      <inertia ixx="0.00051363" ixy="1.5204E-12" ixz="7.9558E-08"
+               iyy="0.00051363" iyz="8.0725E-09" izz="0.00065555"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L8_Link.STL"/></geometry>
+      <material name=""><color rgba="0.75294 0.75294 0.75294 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://igh_motor/urdf/G1_meshes_left/L8_Link.STL"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="L8" type="fixed">
+    <origin xyz="-6.6964E-05 0 -0.11948" rpy="0 0 0"/>
+    <parent link="L7_Link"/>
+    <child link="L8_Link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+
+  <link
+    name="R1_Link">
+    <inertial>
+      <origin
+        xyz="-0.000325287933149857 -0.055637109181277 -9.40010076414417E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.340471033222104" />
+      <inertia
+        ixx="0.000660656880670012"
+        ixy="-2.20616015434211E-05"
+        ixz="1.8634539323388E-09"
+        iyy="0.000619950643973765"
+        iyz="3.8594195694665E-09"
+        izz="0.000621233031894395" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy=" -1.570796326794897  -0.000000000000000   1.570796326794897" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J1_LINK.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+       <origin
+        xyz="0 0 0"
+        rpy=" -1.570796326794897  -0.000000000000000   1.570796326794897" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J1_LINK.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R1"
+    type="revolute">
+    <origin
+      xyz=" -0.018000000000000  -0.168500000000000   0.288000000000000"
+      rpy=" 1.570796326794897   1.570796326794897                   0" />
+    <parent
+      link="base_link" />
+    <child
+      link="R1_Link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.84"
+      upper="3.84"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="R2_Link">
+    <inertial>
+      <origin
+        xyz=" 0   0.000986900000110   0.000000000000000"
+        rpy="0  -1.570796326794897  -3.141592653589790" />
+      <mass
+        value="0.265231490604878" />
+      <inertia
+        ixx="0.000784170879948476"
+        ixy="-1.02932524233152E-10"
+        ixz="1.9984847744397E-05"
+        iyy="0.000691639463083017"
+        iyz="2.63035254364525E-10"
+        izz="0.000247245000100072" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="                 0   0.000000000000110   0.000000000000000"
+        rpy="   -1.570796326795039   1.570365230469654   1.570796326794755" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J2_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="                0   0.000000000000110   0.000000000000000"
+        rpy="    -1.570796326795039   1.570365230469654   1.570796326794755" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J2_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R2"
+    type="revolute">
+    <origin
+      xyz="   0                   0   0.098000000000000"
+      rpy="1.570365230469654                   0                   0" />
+    <parent
+      link="R1_Link" />
+    <child
+      link="R2_Link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.35"
+      upper="3.49"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="R3_Link">
+    <inertial>
+      <origin
+        xyz="8.69764665323269E-08 0.000937030561049171 -0.0762727878501818"
+        rpy="0 0 0" />
+      <mass
+        value="0.268567570035696" />
+      <inertia
+        ixx="0.000582208390212826"
+        ixy="5.22062291606482E-10"
+        ixz="-1.43597846706661E-09"
+        iyy="0.000584724988569903"
+        iyz="-1.63563065164268E-05"
+        izz="0.000370502337924234" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="   -0.001748191494428  -0.000153099788240   0.159490345748430"
+        rpy="  -3.130631573107655   0.000955205990595  -1.570365256167883" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J3_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="  -0.001748191494428  -0.000153099788240   0.159490345748430"
+        rpy="  -3.130631573107655   0.000955205990595  -1.570365256167883" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J3_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R3"
+    type="revolute">
+    <origin
+      xyz="        0                   0                   0"
+      rpy=" 1.569836395706300                   0   1.581756994497421" />
+    <parent
+      link="R2_Link" />
+    <child
+      link="R3_Link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="R4_Link">
+    <inertial>
+      <origin
+        xyz="-8.30707825659296E-06 -0.0274300121374719 -0.0665348352116024"
+        rpy="0 0 0" />
+      <mass
+        value="0.177112206235601" />
+      <inertia
+        ixx="0.000552953262752311"
+        ixy="8.91440151681961E-09"
+        ixz="-1.06700167579411E-09"
+        iyy="0.000554505011145564"
+        iyz="0.000120716146563416"
+        izz="0.000198210876491277" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="-0.000323257716340  -0.000182964525445  -0.003235037897790"
+        rpy="-1.559513964276150  -0.012669631308791  -3.140641594625946" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J4_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="-0.000323257716340  -0.000182964525445  -0.003235037897790"
+        rpy="-1.559513964276150  -0.012669631308791  -3.140641594625946" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J4_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R4"
+    type="revolute">
+    <origin
+      xyz="  0                   0   0.295664000000000"
+      rpy="1.571129684682028                   0   1.558558078079912" />
+    <parent
+      link="R3_Link" />
+    <child
+      link="R4_Link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="1.74"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="R5_Link">
+    <inertial>
+      <origin
+        xyz="8.28770411160037E-06 -0.00554798962219073 -0.0545043097564156"
+        rpy="0 0 0" />
+      <mass
+        value="0.130074114279894" />
+      <inertia
+        ixx="0.000280690617187358"
+        ixy="-1.13962574906353E-08"
+        ixz="7.46601511546793E-09"
+        iyy="0.000280362165905258"
+        iyz="4.67362034266321E-05"
+        izz="9.49292002927345E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz=" 0.004743277421630  -0.005561072160961   0.139700644673242"
+        rpy="-3.124564964362276   0.031406150482072   0.012843974725339" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J5_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz=" 0.004743277421630  -0.005561072160961   0.139700644673242"
+        rpy="-3.124564964362276   0.031406150482072   0.012843974725339" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J5_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R5"
+    type="revolute">
+    <origin
+      xyz="0                   0                   0"
+      rpy="1.565452128625290                   0   3.111066844972413" />
+    <parent
+      link="R4_Link" />
+    <child
+      link="R5_Link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="R6_Link">
+    <inertial>
+      <origin
+        xyz="0.00126015788587344 0.00475230206494695 -0.012393874451852"
+        rpy="0 0 0" />
+      <mass
+        value="0.0621077168476662" />
+      <inertia
+        ixx="4.19914423145645E-05"
+        ixy="-1.63345204660381E-07"
+        ixz="1.07747095907063E-05"
+        iyy="5.57910818611102E-05"
+        iyz="2.7439167991059E-07"
+        izz="5.60521185945521E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz=" 0.009268390348405   0.000098910891905   0.008040053252912"
+        rpy="  1.592526834148025   0.005661302818280  -0.031379396689524" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J6_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz=" 0.009268390348405   0.000098910891905   0.008040053252912"
+        rpy="  1.592526834148025   0.005661302818280  -0.031379396689524" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J6_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R6"
+    type="revolute">
+    <origin
+      xyz="  0                   0   0.284470000000000"
+      rpy="1.565918131535572                   0   0.007333070665424" />
+    <parent
+      link="R5_Link" />
+    <child
+      link="R6_Link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.785"
+      upper="0.785"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="R7_Link">
+    <inertial>
+      <origin
+        xyz="-0.00918555348190456 8.09937201519395E-06 -0.0222752335349392"
+        rpy="0 0 0" />
+      <mass
+        value="0.156257759501093" />
+      <inertia
+        ixx="0.0001246066976551"
+        ixy="6.49424914446707E-09"
+        ixz="7.42880516734906E-07"
+        iyy="0.000106375771220137"
+        iyz="1.45318891348576E-09"
+        izz="0.00012821890590948" />
+    </inertial>
+    <visual>
+      <origin
+        xyz=" -0.000685864850451   0.009011696252094  -0.010690607382969"
+        rpy="  -0.174372635246441   1.538803536408950  -0.196182964350928" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J7_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="-0.000685864850451   0.009011696252094  -0.010690607382969"
+        rpy="  -0.174372635246441   1.538803536408950  -0.196182964350928" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J7_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R7"
+    type="revolute">
+    <origin
+      xyz="   0   0.044380100000000                   0"
+      rpy=" 1.571370540118803                   0  -1.570796326794897" />
+    <parent
+      link="R6_Link" />
+    <child
+      link="R7_Link" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1.48"
+      upper="1.48"
+      effort="0"
+      velocity="0" />
+  </joint>
+
+  <link
+    name="R8_Link">
+    <inertial>
+      <origin
+        xyz="0.00304426970983163 0.00944620311617281 -0.0828860950728643"
+        rpy="0 0 0" />
+      <mass
+        value="0.24156344792477" />
+      <inertia
+        ixx="0.000315783410449731"
+        ixy="-8.45112207272776E-07"
+        ixz="5.31979461689091E-08"
+        iyy="0.000350259046260649"
+        iyz="-1.07098815030618E-05"
+        izz="0.000144979175737423" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 3.1415 -1.57" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J8_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 3.1415 -1.57" />
+      <geometry>
+        <mesh
+          filename="package://igh_motor/urdf/G1_meshes_right/J8_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R8"
+    type="fixed">
+    <origin
+      xyz="-0.18 0 0"
+      rpy="0 1.57 0" />
+    <parent
+      link="R7_Link" />
+    <child
+      link="R8_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+
+  <!-- ROS 2 控制：仅保留左臂 Master -->
+  <ros2_control name="ec_left_arm_master" type="system">
+    <hardware>
+      <plugin>ethercat_driver/EthercatDriver</plugin>
+      <param name="master_id">0</param>
+      <param name="control_frequency">1000</param>
+    </hardware>
+
+    <joint name="L1">
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+      <command_interface name="position" />
+      <command_interface name="reset_fault" />
+      <ec_module name="eyou">
+        <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+        <param name="alias">0</param>
+        <param name="position">0</param>
+        <param name="mode_of_operation">8</param>
+        <param name="slave_config">$(find ethercat_motor_drive)/config/eyou_ecat_v143_config_121.yaml</param>
+      </ec_module>
+    </joint>
+
+    <joint name="L2" type="revolute">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <command_interface name="position"/>
+      <command_interface name="reset_fault"/>
+      <ec_module name="eyou">
+        <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+        <param name="alias">0</param>
+        <param name="position">1</param>
+        <param name="mode_of_operation">8</param>
+        <param name="slave_config">$(find ethercat_motor_drive)/config/eyou_ecat_v143_config_121.yaml</param>
+      </ec_module>
+    </joint>
+
+    <joint name="L3" type="revolute">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <command_interface name="position"/>
+      <command_interface name="reset_fault"/>
+      <ec_module name="eyou">
+        <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+        <param name="alias">0</param>
+        <param name="position">2</param>
+        <param name="mode_of_operation">8</param>
+        <param name="slave_config">$(find ethercat_motor_drive)/config/eyou_ecat_v143_config_101.yaml</param>
+      </ec_module>
+    </joint>
+
+    <joint name="L4" type="revolute">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <command_interface name="position"/>
+      <command_interface name="reset_fault"/>
+      <ec_module name="eyou">
+        <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+        <param name="alias">0</param>
+        <param name="position">3</param>
+        <param name="mode_of_operation">8</param>
+        <param name="slave_config">$(find ethercat_motor_drive)/config/eyou_ecat_v143_config_101.yaml</param>
+      </ec_module>
+    </joint>
+
+    <joint name="L5" type="revolute">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <command_interface name="position"/>
+      <command_interface name="reset_fault"/>
+      <ec_module name="eyou">
+        <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+        <param name="alias">0</param>
+        <param name="position">4</param>
+        <param name="mode_of_operation">8</param>
+        <param name="slave_config">$(find ethercat_motor_drive)/config/eyou_ecat_v143_config_101.yaml</param>
+      </ec_module>
+    </joint>
+
+    <joint name="L6" type="revolute">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <command_interface name="position"/>
+      <command_interface name="reset_fault"/>
+      <ec_module name="eyou">
+        <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+        <param name="alias">0</param>
+        <param name="position">5</param>
+        <param name="mode_of_operation">8</param>
+        <param name="slave_config">$(find ethercat_motor_drive)/config/eyou_ecat_v143_config_101.yaml</param>
+      </ec_module>
+    </joint>
+
+    <joint name="L7" type="revolute">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <command_interface name="position"/>
+      <command_interface name="reset_fault"/>
+      <ec_module name="eyou">
+        <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+        <param name="alias">0</param>
+        <param name="position">6</param>
+        <param name="mode_of_operation">8</param>
+        <param name="slave_config">$(find ethercat_motor_drive)/config/eyou_ecat_v143_config_101.yaml</param>
+      </ec_module>
+    </joint>
+    </ros2_control>
+
+    <ros2_control name="ec_right_arm_master" type="system">
+    <hardware>
+      <plugin>ethercat_driver/EthercatDriver</plugin>
+      <param name="master_id">1</param>
+      <param name="control_frequency">1000</param>
+    </hardware>
+    <!-- R1 joint -->
+    <joint name="R1">
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+      <command_interface name="position" />
+      <command_interface name="reset_fault" />
+      <ec_module name="eyou">
+        <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+        <param name="alias">0</param>
+        <param name="position">0</param>
+        <param name="mode_of_operation">8</param>
+        <param name="slave_config">$(find ethercat_motor_drive)/config/eyou_ecat_v143_config_121.yaml</param>
+      </ec_module>
+    </joint>
+    <!-- R2 joint -->
+    <joint name="R2" type="revolute">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <command_interface name="position"/>
+      <command_interface name="reset_fault"/>
+      <ec_module name="eyou">
+        <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+        <param name="alias">0</param>
+        <param name="position">1</param>
+        <param name="mode_of_operation">8</param>
+        <param name="slave_config">$(find ethercat_motor_drive)/config/eyou_ecat_v143_config_121.yaml</param>
+      </ec_module>
+    </joint>
+   <!-- R3 joint -->
+    <joint name="R3" type="revolute">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <command_interface name="position"/>
+      <command_interface name="reset_fault"/>
+      <ec_module name="eyou">
+        <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+        <param name="alias">0</param>
+        <param name="position">2</param>
+        <param name="mode_of_operation">8</param>
+        <param name="slave_config">$(find ethercat_motor_drive)/config/eyou_ecat_v143_config_101.yaml</param>
+      </ec_module>
+    </joint>
+    <!-- R4 joint -->
+    <joint name="R4" type="revolute">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <command_interface name="position"/>
+      <command_interface name="reset_fault"/>
+      <ec_module name="eyou">
+        <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+        <param name="alias">0</param>
+        <param name="position">3</param>
+        <param name="mode_of_operation">8</param>
+        <param name="slave_config">$(find ethercat_motor_drive)/config/eyou_ecat_v143_config_101.yaml</param>
+      </ec_module>
+    </joint>
+
+    <!-- R5 joint -->
+    <joint name="R5" type="revolute">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <command_interface name="position"/>
+      <command_interface name="reset_fault"/>
+      <ec_module name="eyou">
+        <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+        <param name="alias">0</param>
+        <param name="position">4</param>
+        <param name="mode_of_operation">8</param>
+        <param name="slave_config">$(find ethercat_motor_drive)/config/eyou_ecat_v143_config_101.yaml</param>
+      </ec_module>
+    </joint>
+
+    <!-- R6 joint -->
+    <joint name="R6" type="revolute">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <command_interface name="position"/>
+      <command_interface name="reset_fault"/>
+      <ec_module name="eyou">
+        <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+        <param name="alias">0</param>
+        <param name="position">5</param>
+        <param name="mode_of_operation">8</param>
+        <param name="slave_config">$(find ethercat_motor_drive)/config/eyou_ecat_v143_config_101.yaml</param>
+      </ec_module>
+    </joint>
+
+    <!-- R7 joint -->
+    <joint name="R7" type="revolute">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <command_interface name="position"/>
+      <command_interface name="reset_fault"/>
+      <ec_module name="eyou">
+        <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+        <param name="alias">0</param>
+        <param name="position">6</param>
+        <param name="mode_of_operation">8</param>
+        <param name="slave_config">$(find ethercat_motor_drive)/config/eyou_ecat_v143_config_101.yaml</param>
+      </ec_module>
+    </joint>
+
+    <joint name="R8" type="revolute">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <command_interface name="effort"/>
+      <command_interface name="reset_fault"/>
+      <ec_module name="eyou">
+        <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+        <param name="alias">0</param>
+        <param name="position">7</param>
+        <param name="mode_of_operation">10</param>
+        <param name="slave_config">$(find ethercat_motor_drive)/config/eyou_ecat_v143_config.yaml</param>
+      </ec_module>
+    </joint>
+  </ros2_control>
+
+
+
+</robot>
+
