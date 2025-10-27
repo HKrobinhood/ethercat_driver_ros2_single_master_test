@@ -13,6 +13,8 @@ error_log:
   path: /home/robot/Desktop/ecat_error_snapshot.jsonl   # 建议写到 SSD/磁盘
   every_n_cycles: 500                                # 1 kHz*500 = 0.5 s
 
+periodic_status_enabled: true
+status_publish_period_sec: 5.0  # 按需改成更短/更长的心跳周期
 
 sdo: # sdo data to be transferred at drive startup
   # - { index: 0x6060, sub_index: 0, type: uint8, value: 10} # Set base 10-3s

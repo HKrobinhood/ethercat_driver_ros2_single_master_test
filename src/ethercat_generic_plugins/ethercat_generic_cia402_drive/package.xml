@@ -13,6 +13,8 @@
   <depend>ethercat_generic_slave</depend>
   <depend>pluginlib</depend>
   <depend>yaml_cpp_vendor</depend>
+  <depend>rclcpp</depend>
+  <depend>ethercat_msgs</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

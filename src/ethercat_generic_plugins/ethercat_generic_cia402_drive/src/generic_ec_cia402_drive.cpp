@@ -94,34 +94,8 @@ void EcCiA402Drive::processData(size_t index, uint8_t * domain_address)
   }
 
   if (pdo_channels_info_[index].index == CiA402D_ERROR_CODE) {
-    // 每 json_log_every_n_ 次执行一次（默认为 0.5 秒，假设 processData 每 1ms 调用）
-      // ====== 原有打印逻辑（保留并扩展） ======
-      // std::cout << "\n[EtherCAT] --- Error Code List";
-      //   // if (motor_number >= 0) {
-      //   //   std::cout << " (motor#" << motor_number << " / index " << motor_index << ")";
-      //   // }
-      // std::cout << " ---" << std::endl;
-
-      // for (size_t idx = 0; idx < pdo_channels_info_.size(); ++idx) {
-      //   if (pdo_channels_info_[idx].index == CiA402D_ERROR_CODE) {
-      //     int32_t error_code = pdo_channels_info_[idx].last_value;
-
-      //     std::cout << "  index[" << idx << "]";
-      //     // if (motor_number >= 0) {
-      //     //   std::cout << " motor#" << motor_number;
-      //     // }
-      //     std::cout << "  ErrorCode: 0x"
-      //               << std::hex << std::uppercase << static_cast<uint16_t>(error_code)
-      //               << std::dec << std::endl;
-      //   }
-      // }
-
-      // std::cout << "[EtherCAT] ------------------------\n" << std::endl;
-      // ==================================
-
-      // ====== 新增：写入 JSON 文件 ======
-      write_error_json_snapshot_();
-      // ==================================
+    const uint16_t code = static_cast<uint16_t>(pdo_channels_info_[index].last_value);
+    publish_error_code_(code);
   }
 
 
@@ -140,6 +114,7 @@ void EcCiA402Drive::processData(size_t index, uint8_t * domain_address)
     last_status_word_ = status_word_;
     last_state_ = state_;
     counter_++;
+    maybe_publish_status_snapshot_();
   }
 }
 
@@ -160,12 +135,22 @@ bool EcCiA402Drive::setupSlave(
       position_ = -1;
     }
   }
+  if (paramters_.find("alias") != paramters_.end()) {
+    try {
+      alias_ = std::stoi(paramters_.at("alias"));
+    } catch (const std::exception &) {
+      alias_ = 0;
+    }
+  }
   if (paramters_.find("master_id") != paramters_.end()) {
     try {
       master_id_ = std::stoi(paramters_.at("master_id"));
     } catch (const std::exception &) {
       master_id_ = -1;
     }
+  }
+  if (paramters_.find("name") != paramters_.end()) {
+    slave_name_ = paramters_.at("name");
   }
 
   if (paramters_.find("slave_config") != paramters_.end()) {
@@ -187,6 +172,8 @@ bool EcCiA402Drive::setupSlave(
   if (paramters_.find("command_interface/reset_fault") != paramters_.end()) {
     fault_reset_command_interface_index_ = std::stoi(paramters_["command_interface/reset_fault"]);
   }
+
+  init_error_publisher_();
 
   return true;
 }
@@ -237,7 +224,98 @@ bool EcCiA402Drive::setup_from_config(YAML::Node drive_config)
   }
   // -----------------------------------------------
 
+  if (drive_config["periodic_status_enabled"]) {
+    periodic_status_enabled_ = drive_config["periodic_status_enabled"].as<bool>();
+  }
+  if (drive_config["status_publish_period_sec"]) {
+    try {
+      status_publish_period_sec_ = drive_config["status_publish_period_sec"].as<double>();
+    } catch (const std::exception &) {
+      status_publish_period_sec_ = 5.0;
+    }
+    if (status_publish_period_sec_ <= 0.0) {
+      status_publish_period_sec_ = 5.0;
+    }
+  }
+
   return true;
+}
+
+void EcCiA402Drive::init_error_publisher_()
+{
+  if (error_node_) {
+    if (!error_pub_) {
+      error_pub_ = error_node_->create_publisher<ethercat_msgs::msg::ErrorCode>(
+        error_topic_, rclcpp::QoS(10).best_effort());
+    }
+    return;
+  }
+  std::string node_name = "ec_drive_error_pub_m" + std::to_string(master_id_) +
+    "_a" + std::to_string(alias_) +
+    "_p" + std::to_string(position_);
+  error_node_ = rclcpp::Node::make_shared(node_name);
+  error_pub_ = error_node_->create_publisher<ethercat_msgs::msg::ErrorCode>(
+    error_topic_, rclcpp::QoS(10).best_effort());
+  last_status_pub_ = error_node_->now();
+}
+
+void EcCiA402Drive::publish_error_code_(uint16_t code, bool force)
+{
+  if (!force && code == last_error_code_) {
+    return;
+  }
+  last_error_code_ = code;
+
+  if (!error_pub_) {
+    init_error_publisher_();
+  }
+  if (!error_pub_ || !error_node_) {
+    return;
+  }
+
+  ethercat_msgs::msg::ErrorCode msg;
+  const auto now = error_node_->now();
+  msg.stamp = now;
+  last_status_pub_ = now;
+  msg.master_id = static_cast<int32_t>(master_id_);
+  msg.alias = static_cast<uint16_t>(alias_ < 0 ? 0 : alias_);
+  msg.position = position_;
+  msg.joint_name = slave_name_;
+  msg.status_word = status_word_;
+  msg.error_code = code;
+
+  const auto & map = error_info_map();
+  auto it = map.find(code);
+  msg.error_name = (it != map.end()) ? it->second.name : kUnknownError.name;
+
+  error_pub_->publish(msg);
+}
+
+void EcCiA402Drive::maybe_publish_status_snapshot_()
+{
+  if (!periodic_status_enabled_) {
+    return;
+  }
+  if (!error_node_) {
+    init_error_publisher_();
+  }
+  if (!error_node_) {
+    return;
+  }
+  const auto now = error_node_->now();
+  if (last_status_pub_.nanoseconds() == 0) {
+    last_status_pub_ = now;
+    return;
+  }
+  const auto elapsed = (now - last_status_pub_).seconds();
+  if (elapsed < status_publish_period_sec_) {
+    return;
+  }
+  last_status_pub_ = now;
+
+  if (last_error_code_ == 0u) {
+    publish_error_code_(0u, true);
+  }
 }
 
 void EcCiA402Drive::write_error_json_snapshot_()

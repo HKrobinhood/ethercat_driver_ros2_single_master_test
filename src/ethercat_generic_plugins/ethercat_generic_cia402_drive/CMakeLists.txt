@@ -12,6 +12,8 @@ find_package(ethercat_interface REQUIRED)
 find_package(ethercat_generic_slave REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(yaml_cpp_vendor REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(ethercat_msgs REQUIRED)
 
 file(GLOB_RECURSE PLUGINS_SRC src/*.cpp)
 add_library(ethercat_generic_cia402_drive ${PLUGINS_SRC})
@@ -25,6 +27,8 @@ ament_target_dependencies(
   ethercat_generic_slave
   pluginlib
   yaml_cpp_vendor
+  rclcpp
+  ethercat_msgs
 )
 
 pluginlib_export_plugin_description_file(ethercat_interface ethercat_plugins.xml)

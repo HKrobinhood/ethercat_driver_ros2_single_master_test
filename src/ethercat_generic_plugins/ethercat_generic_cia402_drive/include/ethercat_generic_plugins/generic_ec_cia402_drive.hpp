@@ -28,11 +28,14 @@
 #include <cstdint>
 #include <unordered_map>
 
+#include <rclcpp/rclcpp.hpp>
+
 #include "yaml-cpp/yaml.h"
 #include "ethercat_interface/ec_slave.hpp"
 #include "ethercat_interface/ec_pdo_channel_manager.hpp"
 #include "ethercat_generic_plugins/generic_ec_slave.hpp"
 #include "ethercat_generic_plugins/cia402_common_defs.hpp"
+#include "ethercat_msgs/msg/error_code.hpp"
 
 namespace ethercat_generic_plugins
 {
@@ -118,6 +121,16 @@ protected:
   int master_id_{-1};
   int alias_{0};
   int position_{-1};
+  rclcpp::Node::SharedPtr error_node_;
+  rclcpp::Publisher<ethercat_msgs::msg::ErrorCode>::SharedPtr error_pub_;
+  std::string error_topic_{"/ethercat/drive_error"};
+  uint16_t last_error_code_{0};
+  void init_error_publisher_();
+  void publish_error_code_(uint16_t code, bool force = false);
+  void maybe_publish_status_snapshot_();
+  bool periodic_status_enabled_{true};
+  double status_publish_period_sec_{5.0};
+  rclcpp::Time last_status_pub_;
 };
 }  // namespace ethercat_generic_plugins
 
